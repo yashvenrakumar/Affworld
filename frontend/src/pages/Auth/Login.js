@@ -1,14 +1,38 @@
 import React, { useState } from "react";
 import useLogin from "../../hooks/useLogin"; // Import the custom hook
 import { useNavigate } from "react-router-dom";
-import GoogleAuth from "./GoogleLogin";
+// import SignIn from "./GoogleLogin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // State to hold validation errors
   const { handleLogin, isLoading } = useLogin(); // Use the custom hook
 
   const navigate = useNavigate();
+  // const onSuccess = (res) => {
+  //   console.log("success", res);
+  // };
+
+  // const onError = (res) => {
+  //   console.log("error", res);
+  // };
+
+  // Validate fields before submitting
+  const validateFields = () => {
+    if (!email || !password) {
+      setError("Both fields are required!");
+      return false;
+    }
+    setError(""); // Clear error message if fields are valid
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateFields()) {
+      handleLogin(email, password);
+    }
+  };
 
   return (
     <div
@@ -31,6 +55,9 @@ const Login = () => {
           Login
         </h2>
 
+        {/* Error Message */}
+        {error && <div className="text-red-600 text-center mb-4">{error}</div>}
+
         <input
           type="email"
           placeholder="Email"
@@ -48,7 +75,7 @@ const Login = () => {
         />
 
         <button
-          onClick={() => handleLogin(email, password)}
+          onClick={handleSubmit}
           disabled={isLoading}
           className={`w-full bg-blue-500 text-white py-3 px-4 rounded-lg shadow-md hover:bg-blue-600 transition ${
             isLoading ? "cursor-not-allowed opacity-50" : ""
@@ -73,7 +100,11 @@ const Login = () => {
 
           <div className="p-4">
             <button>Google OAuth</button>
-            {/* <GoogleAuth /> */}
+            {/* <SignIn
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+              onSuccess={onSuccess}
+              onError={onError}
+            /> */}
           </div>
         </div>
       </div>

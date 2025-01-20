@@ -6,11 +6,28 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // Error state for validation
   const { handleRegister, isLoading } = useRegister(); // Use the custom hook
   const navigate = useNavigate();
 
   const goToLogin = () => {
     navigate("/login");
+  };
+
+  // Validate fields before submitting
+  const validateFields = () => {
+    if (!name || !email || !password) {
+      setError("All fields are required!");
+      return false;
+    }
+    setError(""); // Clear error message if fields are valid
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateFields()) {
+      handleRegister(name, email, password);
+    }
   };
 
   return (
@@ -30,7 +47,12 @@ const Register = () => {
       ></div>
 
       <div className="w-full max-w-sm bg-white p-8 rounded-xl shadow-lg opacity-95">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Register</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Register
+        </h2>
+
+        {/* Error Message */}
+        {error && <div className="text-red-600 text-center mb-4">{error}</div>}
 
         <input
           type="text"
@@ -57,7 +79,7 @@ const Register = () => {
         />
 
         <button
-          onClick={() => handleRegister(name, email, password)}
+          onClick={handleSubmit}
           disabled={isLoading}
           className={`w-full bg-green-500 text-white py-3 px-4 rounded-lg shadow-md hover:bg-green-600 transition ${
             isLoading ? "cursor-not-allowed opacity-50" : ""

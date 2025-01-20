@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,dotenv,react,venv
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,dotenv,react,venv
 
+echo ".vercel" >> .gitignore
+git add .gitignore
+git commit -m "Add .vercel to .gitignore"
+
+
 frontend/client_secret_*.json
 backend/client_secret_*.json
 

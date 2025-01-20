@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script"; // Import gapi from gapi-script
 
-const GoogleAuth = () => {
-  const onSuccess = (response) => {
-    console.log("Login Success:", response.profileObj);
-    alert(`Logged in as: ${response.profileObj.name}`);
-  };
+const SignIn = ({ clientId, onSuccess, onError }) => {
+  useEffect(() => {
+    const initClient = () => {
+      gapi.auth2.init({
+        client_id: clientId, // Initialize Google Auth client with clientId
+      });
+    };
 
-  const onFailure = (response) => {
-    console.error("Login Failed:", response);
-    alert("Failed to log in. Please try again.");
-  };
+    gapi.load("auth2", initClient); // Load auth2 library for Google Sign-In
+  }, [clientId]);
 
   return (
-    <div>
-      <h2>Sign In with Google</h2>
+    <div className="FrameSignIn">
+      <h2>Google Sign In</h2>
+      <br />
       <GoogleLogin
-        clientId="{process.env.REACT_APP_GOOGLE_CLIENT_ID}"
-        buttonText="Login with Google"
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        cookiePolicy={"single_host_origin"}
-        isSignedIn={true}
+        clientId={clientId} // Using the provided clientId prop
+        buttonText="Sign in with Google"
+        onSuccess={onSuccess} // Success callback
+        onFailure={onError} // Error callback
+        cookiePolicy="single_host_origin"
+        isSignedIn={true} // Keep user signed in
+        theme="dark" // Choose a dark theme for the button
       />
+      <br />
     </div>
   );
 };
 
-export default GoogleAuth;
+export default SignIn;

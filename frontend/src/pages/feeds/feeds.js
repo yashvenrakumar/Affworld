@@ -5,8 +5,7 @@ const Feed = () => {
   const {
     caption,
     setCaption,
-    photo,
-    handlePhotoChange,
+     handlePhotoChange,
     handleSubmit,
     loading,
     error,

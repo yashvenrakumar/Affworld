@@ -1,7 +1,6 @@
 // App.js
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./components/Home";
 import "./App.css";
 import "./input.css";
 import TaskBoard from "./pages/Tasks/TaskBoard";
@@ -10,19 +9,23 @@ import Register from "./pages/Auth/Register";
 
 import Login from "./pages/Auth/Login";
 import ResetPassword from "./pages/Auth/ResetPassword";
- 
+import CreateTask from "./pages/Tasks/CreateTask";
+import ShowFeed from "./pages/feeds/showFeed";
+import FeedingView from "./pages/feeds/feedingView";
+
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<TaskBoard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<ResetPassword />} />
-
-        <Route path="/tasks" element={<TaskBoard />} />
+        <Route path="/tasks" element={<CreateTask />} />
         <Route path="/feed" element={<Feed />} />
-       </Routes>
+        <Route path="/showFeed" element={<ShowFeed />} />
+        <Route path="/feeds" element={<FeedingView />} />
+      </Routes>
     </Router>
   );
 };
